@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Abuse Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .navbar-custom {
+            background-color: #1e1e1e;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .main-hero {
+            padding: 6rem 0;
+            text-align: center;
+        }
+        .hero-title {
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .content-card {
+            background-color: #1e1e1e;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            padding: 2.5rem;
+            margin-top: -3rem;
+        }
+        .form-control {
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            color: #ffffff;
+        }
+        .form-control::placeholder {
+            color: #888;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .prediction-section {
+            background-color: #1e1e1e;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+        }
+        .prediction-badge {
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            display: inline-block;
+        }
+        .badge-abusive {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+        .badge-non-abusive {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+        .features-section {
+            padding: 4rem 0;
+        }
+        .feature-card {
+            background-color: #1e1e1e;
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="bi bi-robot me-2 text-primary"></i>
+                Cyber Abuse Detector
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="main-hero bg-primary">
+            <div class="container">
+                <h1 class="display-4 hero-title">Detect Cyber Abuse with AI</h1>
+                <p class="lead text-white-50 mt-3">
+                    Your solution for a safer online environment in Roman Urdu.
+                </p>
+            </div>
+        </section>
+
+        <section class="container pb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="content-card">
+                        <h4 class="text-center mb-4 text-white">Analyze Roman Urdu Text</h4>
+                        <form method="POST">
+                            <div class="mb-4">
+                                <label for="comment" class="form-label">Enter text to analyze:</label>
+                                <textarea
+                                    class="form-control"
+                                    name="comment"
+                                    id="comment"
+                                    rows="6"
+                                    placeholder="Type or paste your Roman Urdu comment here...">{{ comment if comment else '' }}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 py-3">
+                                <i class="bi bi-search me-2"></i>Analyze Text
+                            </button>
+                        </form>
+
+                        {% if result %}
+                        <hr class="my-5 border-secondary">
+                        <div class="prediction-section text-center">
+                            <h5 class="mb-4 text-white">Prediction Results</h5>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <p class="text-white">Naive Bayes</p>
+                                    <span class="prediction-badge {{ 'badge-abusive' if 'abusive' in result['Naive Bayes'].lower() else 'badge-non-abusive' }}">
+                                        {{ result['Naive Bayes'] }}
+                                    </span>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="text-white">SVM</p>
+                                    <span class="prediction-badge {{ 'badge-abusive' if 'abusive' in result['SVM'].lower() else 'badge-non-abusive' }}">
+                                        {{ result['SVM'] }}
+                                    </span>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="text-white">Decision Tree</p>
+                                    <span class="prediction-badge {{ 'badge-abusive' if 'abusive' in result['Decision Tree'].lower() else 'badge-non-abusive' }}">
+                                        {{ result['Decision Tree'] }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features-section bg-dark">
+            <div class="container">
+                <h2 class="text-center text-white mb-5">Key Features</h2>
+                <div class="row g-4 text-center">
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="bi bi-translate feature-icon"></i>
+                            <h5 class="text-white">Roman Urdu NLP</h5>
+                            <p class="text-muted">Leveraging NLP techniques tailored for Roman Urdu text.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="bi bi-bar-chart-line feature-icon"></i>
+                            <h5 class="text-white">Comparative Analysis</h5>
+                            <p class="text-muted">Compare predictions from multiple robust machine learning models.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="bi bi-shield-check feature-icon"></i>
+                            <h5 class="text-white">High Accuracy</h5>
+                            <p class="text-muted">Trained on a curated dataset for reliable and precise detection.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-light py-4 text-center">
+        <div class="container">
+            <small>&copy; 2024 Cyber Abuse Detector. All Rights Reserved.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
